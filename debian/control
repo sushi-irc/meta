@@ -21,9 +21,7 @@ Package: sushi
 Architecture: all
 Depends: maki,
  tekka | nigiri
-Recommends: sushi-doc,
- sushi-examples,
- sushi-remote
+Recommends: sushi-remote
 Description: IRC suite
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -31,29 +29,6 @@ Description: IRC suite
  interact with IRC.
  .
  This package provides the full suite.
-
-Package: sushi-doc
-Section: doc
-Architecture: all
-Description: IRC suite - documentation
- The sushi IRC suite consists of a central daemon and several clients, which
- communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
- .
- This package contains the documentation.
-
-Package: sushi-examples
-Architecture: all
-Depends: ${python:Depends}
-XB-Python-Version: ${python:Versions}
-Description: IRC suite - examples
- The sushi IRC suite consists of a central daemon and several clients, which
- communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
- .
- This package contains useful examples.
 
 Package: sushi-plugins
 Architecture: all
@@ -99,6 +74,7 @@ Depends: ${python:Depends},
  python-gobject,
  python-gtk2,
  python-xdg
+Recommends: sushi-plugins
 XB-Python-Version: ${python:Versions}
 Description: IRC suite - graphical client
  The sushi IRC suite consists of a central daemon and several clients, which
@@ -116,6 +92,7 @@ Depends: ${python:Depends},
  python-gobject,
  python-urwid (>= 0.9.8),
  python-xdg
+Recommends: sushi-plugins
 XB-Python-Version: ${python:Versions}
 Description: IRC suite - terminal client
  The sushi IRC suite consists of a central daemon and several clients, which
