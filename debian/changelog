@@ -1,0 +1,5 @@
+sushi (1.1.0-0ubuntu1) karmic; urgency=low
+
+  * Initial release. (LP: #368893)
+
+ -- Michael Kuhn <suraia@ikkoku.de>  Thu, 14 May 2009 16:32:19 +0200

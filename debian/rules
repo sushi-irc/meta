@@ -1,0 +1,76 @@
+#!/usr/bin/make -f
+# Sample debian/rules that uses debhelper.
+# This file is public domain software, originally written by Joey Hess.
+#
+# This version is for a hypothetical package that builds an
+# architecture-dependant package, as well as an architecture-independent
+# package.
+
+# Uncomment this to turn on verbose mode.
+#export DH_VERBOSE=1
+
+build: build-stamp
+build-stamp:
+	dh_testdir
+	$(MAKE) -C maki prefix=/usr
+	touch $@
+
+clean:
+	dh_testdir
+	dh_testroot
+	rm -f build-stamp
+	$(MAKE) clean
+	dh_clean
+
+install: build
+	dh_testdir
+	dh_testroot
+	dh_prep
+	dh_installdirs
+	$(MAKE) -C maki DESTDIR=$(CURDIR)/debian/maki prefix=/usr install
+	$(MAKE) -C documentation DESTDIR=$(CURDIR)/debian/sushi-doc prefix=/usr install
+	$(MAKE) -C examples DESTDIR=$(CURDIR)/debian/sushi-examples prefix=/usr install
+	$(MAKE) -C plugins DESTDIR=$(CURDIR)/debian/sushi-plugins prefix=/usr install
+	$(MAKE) -C remote DESTDIR=$(CURDIR)/debian/sushi-remote prefix=/usr install
+	$(MAKE) -C tekka DESTDIR=$(CURDIR)/debian/tekka prefix=/usr install
+	$(MAKE) -C nigiri DESTDIR=$(CURDIR)/debian/nigiri prefix=/usr install
+	dh_install
+
+binary-indep: build install
+	dh_testdir -i
+	dh_testroot -i
+	dh_installchangelogs -i
+	dh_installdocs -i
+	dh_installexamples -i
+	dh_installman -i
+	dh_link -i
+	dh_compress -i
+	dh_fixperms -i
+	dh_pycentral -i
+	dh_installdeb -i
+	dh_gencontrol -i
+	dh_md5sums -i
+	dh_builddeb -i
+
+binary-arch: build install
+	dh_testdir -a
+	dh_testroot -a
+	dh_installchangelogs -a
+	dh_installdocs -a
+	dh_installexamples -a
+	dh_installmenu -a
+	dh_installman -a
+	dh_strip -a
+	dh_link -a
+	dh_compress -a
+	dh_fixperms -a
+	dh_makeshlibs -a
+	dh_installdeb -a
+	dh_shlibdeps -a
+	dh_gencontrol -a
+	dh_md5sums -a
+	dh_builddeb -a
+
+binary: binary-indep binary-arch
+
+.PHONY: build clean binary-indep binary-arch binary install
