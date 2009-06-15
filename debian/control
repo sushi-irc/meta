@@ -5,13 +5,12 @@ Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Michael Kuhn <suraia@ikkoku.de>
 Build-Depends: debhelper (>= 7),
  pkg-config,
- libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
  libdbus-glib-1-dev,
  gettext
 Build-Depends-Indep: python,
  python-central
-Standards-Version: 3.8.0
+Standards-Version: 3.8.1
 Homepage: http://sushi.ikkoku.de/
 XS-Python-Version: current
 Vcs-Git: git://ikkoku.de/sushi
