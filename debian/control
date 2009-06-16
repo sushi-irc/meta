@@ -5,6 +5,7 @@ Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Michael Kuhn <suraia@ikkoku.de>
 Build-Depends: debhelper (>= 7),
  pkg-config,
+ libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
  libdbus-glib-1-dev,
  gettext
@@ -20,7 +21,6 @@ Package: sushi
 Architecture: all
 Depends: maki,
  tekka | nigiri
-Recommends: sushi-remote
 Description: IRC suite
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -40,18 +40,6 @@ Description: IRC suite - plugins
  interact with IRC.
  .
  This package contains plugins for the clients.
-
-Package: sushi-remote
-Architecture: all
-Depends: ${python:Depends}
-XB-Python-Version: ${python:Versions}
-Description: IRC suite - remote tools
- The sushi IRC suite consists of a central daemon and several clients, which
- communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
- .
- This package contains tools for remote use.
 
 Package: maki
 Architecture: any

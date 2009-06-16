@@ -29,7 +29,6 @@ install: build
 	dh_installdirs
 	$(MAKE) -C maki DESTDIR=$(CURDIR)/debian/maki prefix=/usr install
 	$(MAKE) -C plugins DESTDIR=$(CURDIR)/debian/sushi-plugins prefix=/usr install
-	$(MAKE) -C remote DESTDIR=$(CURDIR)/debian/sushi-remote prefix=/usr install
 	$(MAKE) -C tekka DESTDIR=$(CURDIR)/debian/tekka prefix=/usr install
 	$(MAKE) -C nigiri DESTDIR=$(CURDIR)/debian/nigiri prefix=/usr install
 	dh_install
