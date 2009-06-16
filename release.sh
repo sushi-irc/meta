@@ -33,7 +33,7 @@ usage ()
 
 test -z "$1" && usage
 
-for component in maki tekka nigiri plugins remote
+for component in maki tekka nigiri plugins
 do
 	if [ ! -d "${component}" ]
 	then
@@ -47,7 +47,7 @@ sushi_release="sushi-${release}"
 
 rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
 
-for component in maki tekka nigiri plugins remote
+for component in maki tekka nigiri plugins
 do
 	component_release="${component}-${release}"
 
