@@ -19,7 +19,10 @@ clean:
 	dh_testdir
 	dh_testroot
 	rm -f build-stamp
-	$(MAKE) clean
+	$(MAKE) -C maki clean
+	$(MAKE) -C plugins clean
+	$(MAKE) -C tekka clean
+	$(MAKE) -C nigiri clean
 	dh_clean
 
 install: build
