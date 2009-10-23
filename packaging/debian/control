@@ -8,7 +8,8 @@ Build-Depends: debhelper (>= 7),
  libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
  libdbus-glib-1-dev,
- gettext
+ gettext,
+ libnm-glib-dev
 Build-Depends-Indep: python,
  python-central
 Standards-Version: 3.8.1
