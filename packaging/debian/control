@@ -9,7 +9,9 @@ Build-Depends: debhelper (>= 7),
  libglib2.0-dev (>= 2.16),
  libdbus-glib-1-dev,
  gettext,
- libnm-glib-dev
+ intltool,
+ libnm-glib-dev,
+ libnice-dev
 Build-Depends-Indep: python,
  python-central
 Standards-Version: 3.8.1
