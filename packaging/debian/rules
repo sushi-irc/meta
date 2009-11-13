@@ -9,17 +9,24 @@
 # Uncomment this to turn on verbose mode.
 #export DH_VERBOSE=1
 
-build: build-stamp
-build-stamp:
+configure: configure-stamp
+configure-stamp:
 	dh_testdir
-	$(MAKE) -C maki prefix=/usr
+	cd maki && ./waf configure --prefix=/usr
+	touch $@
+
+build: build-stamp
+build-stamp: configure-stamp
+	dh_testdir
+	cd maki && ./waf build
 	touch $@
 
 clean:
 	dh_testdir
 	dh_testroot
+	rm -f configure-stamp
 	rm -f build-stamp
-	$(MAKE) -C maki clean
+	cd maki && ./waf distclean
 	$(MAKE) -C plugins clean
 	$(MAKE) -C tekka clean
 	$(MAKE) -C nigiri clean
@@ -30,7 +37,7 @@ install: build
 	dh_testroot
 	dh_prep
 	dh_installdirs
-	$(MAKE) -C maki DESTDIR=$(CURDIR)/debian/maki prefix=/usr install
+	cd maki && ./waf install --destdir=$(CURDIR)/debian/maki
 	$(MAKE) -C plugins DESTDIR=$(CURDIR)/debian/sushi-plugins prefix=/usr install
 	$(MAKE) -C tekka DESTDIR=$(CURDIR)/debian/tekka prefix=/usr install
 	$(MAKE) -C nigiri DESTDIR=$(CURDIR)/debian/nigiri prefix=/usr install
@@ -73,4 +80,4 @@ binary-arch: build install
 
 binary: binary-indep binary-arch
 
-.PHONY: build clean binary-indep binary-arch binary install
+.PHONY: configure build clean binary-indep binary-arch binary install

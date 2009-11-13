@@ -4,6 +4,7 @@ Priority: optional
 Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
 XSBC-Original-Maintainer: Michael Kuhn <suraia@ikkoku.de>
 Build-Depends: debhelper (>= 7),
+ python,
  pkg-config,
  libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
