@@ -25,6 +25,8 @@
 # OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
 # SUCH DAMAGE.
 
+set -e
+
 usage ()
 {
 	echo "Usage: ${0##*/} release"
@@ -46,6 +48,9 @@ release="$1"
 sushi_release="sushi-${release}"
 
 rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
+
+git tag "${release}"
+git archive --prefix="${sushi_release}/" "${release}" > "${sushi_release}.tar"
 
 for component in maki tekka nigiri plugins
 do
