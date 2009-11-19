@@ -13,12 +13,18 @@ configure: configure-stamp
 configure-stamp:
 	dh_testdir
 	cd maki && ./waf configure --prefix=/usr
+	cd nigiri && ./waf configure --prefix=/usr
+	cd tekka && ./waf configure --prefix=/usr
+	cd plugins && ./waf configure --prefix=/usr
 	touch $@
 
 build: build-stamp
 build-stamp: configure-stamp
 	dh_testdir
 	cd maki && ./waf build
+	cd nigiri && ./waf build
+	cd tekka && ./waf build
+	cd plugins && ./waf build
 	touch $@
 
 clean:
@@ -27,9 +33,9 @@ clean:
 	rm -f configure-stamp
 	rm -f build-stamp
 	cd maki && ./waf distclean
-	$(MAKE) -C plugins clean
-	$(MAKE) -C tekka clean
-	$(MAKE) -C nigiri clean
+	cd nigiri && ./waf distclean
+	cd tekka && ./waf distclean
+	cd plugins && ./waf distclean
 	dh_clean
 
 install: build
@@ -38,9 +44,9 @@ install: build
 	dh_prep
 	dh_installdirs
 	cd maki && ./waf install --destdir=$(CURDIR)/debian/maki
-	$(MAKE) -C plugins DESTDIR=$(CURDIR)/debian/sushi-plugins prefix=/usr install
-	$(MAKE) -C tekka DESTDIR=$(CURDIR)/debian/tekka prefix=/usr install
-	$(MAKE) -C nigiri DESTDIR=$(CURDIR)/debian/nigiri prefix=/usr install
+	cd nigiri && ./waf install --destdir=$(CURDIR)/debian/nigiri
+	cd tekka && ./waf install --destdir=$(CURDIR)/debian/tekka
+	cd plugins && ./waf install --destdir=$(CURDIR)/debian/sushi-plugins
 	dh_install
 
 binary-indep: build install
