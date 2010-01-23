@@ -16,7 +16,7 @@ Build-Depends: debhelper (>= 7),
  libgupnp-igd-1.0-dev
 Build-Depends-Indep: python,
  python-central
-Standards-Version: 3.8.1
+Standards-Version: 3.8.3
 Homepage: http://sushi.ikkoku.de/
 XS-Python-Version: current
 Vcs-Git: git://ikkoku.de/sushi
