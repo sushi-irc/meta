@@ -58,8 +58,6 @@ do
 	git tag "${release}"
 	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
 
-	vim Makefile.common
-
 	cd ../suite
 
 	tar Avf "${sushi_release}.tar" "${component_release}.tar"
