@@ -35,14 +35,11 @@ usage ()
 
 test -z "$1" && usage
 
-for component in maki tekka nigiri plugins
-do
-	if [ ! -d "${component}" ]
-	then
-		echo 'Not in top-level directory.'
-		exit 1
-	fi
-done
+if [ ! -f tools/release.sh ]
+then
+	echo 'Not in top-level directory.'
+	exit 1
+fi
 
 release="$1"
 sushi_release="sushi-${release}"
@@ -56,14 +53,14 @@ for component in maki tekka nigiri plugins
 do
 	component_release="${component}-${release}"
 
-	cd "${component}"
+	cd "../${component}"
 
 	git tag "${release}"
-	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../${component_release}.tar"
+	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
 
 	vim Makefile.common
 
-	cd ..
+	cd ../suite
 
 	tar Avf "${sushi_release}.tar" "${component_release}.tar"
 	rm -fv "${component_release}.tar"
