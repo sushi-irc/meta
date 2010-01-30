@@ -14,8 +14,7 @@ Build-Depends: debhelper (>= 7),
  libnm-glib-dev (>= 0.7.0),
  libnice-dev,
  libgupnp-igd-1.0-dev
-Build-Depends-Indep: python,
- python-central
+Build-Depends-Indep: python-central
 Standards-Version: 3.8.3
 Homepage: http://sushi.ikkoku.de/
 XS-Python-Version: current
