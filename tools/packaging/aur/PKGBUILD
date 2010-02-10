@@ -1,29 +1,27 @@
 # Contributor: Marco Russo <nofoo@gmx.net>
 pkgname=sushi
-pkgver=1.0.1
-pkgrel=1
+pkgver=1.1.0
+pkgrel=2
 pkgdesc="IRC client/server suite that abstracts the IRC protocol using DBUS signals"
 arch=('i686' 'x86_64')
 url="http://sushi.ikkoku.de"
 license=('BSD')
-depends=('dbus-core' 'dbus' 'dbus-glib' 'dbus-python' 'glib2>=2.16' 
-'python-urwid>=0.9.8' 'pygobject' 'pyxdg' 'libglade' 'pygtk')
-makedepends=()
-provides=('sushi=1.0.1')
+depends=('dbus-core' 'dbus-glib' 'glib2>=2.16')
+optdepends=('networkmanager' 'libnice')
 conflicts=()
 replaces=()
 backup=()
 options=()
 install=
-source=('http://sushi.ikkoku.de/downloads/1.0/sushi-1.0.1.tar.bz2')
-md5sums=('f46e6ba84918ad3dc8995efe4a67c721')
+source=('http://sushi.ikkoku.de/downloads/1.1/sushi-1.1.0.tar.bz2')
+md5sums=('19b060131bfb508d42bd35502a0d6baa')
 
 build() {
   cd "${srcdir}/$pkgname-$pkgver"
 
-  make prefix=/usr || return 1
-  make prefix="$pkgdir/usr" install || return 1
-  rm "${startdir}/$pkgname-$pkgver.tar.bz2"
+  ./waf configure --prefix="/usr" || return 1
+  ./waf build -p || return 1
+  ./waf install --destdir=$pkgdir || return 1
 }
 
 # vim:set ts=2 sw=2 et:
