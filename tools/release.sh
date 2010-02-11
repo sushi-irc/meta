@@ -27,25 +27,42 @@
 
 set -e
 
+bump_version ()
+{
+	file="$1"
+	version="$2"
+
+	sed -i "/VERSION = /s/^.*$/VERSION = '${version}'/" "${file}"
+}
+
 usage ()
 {
-	echo "Usage: ${0##*/} release"
+	echo "Usage: ${0##*/} [branch] release"
 	exit 1
 }
 
 test -z "$1" && usage
 
-if [ ! -f tools/release.sh ]
+if [ ! -f ./tools/release.sh ]
 then
 	echo 'Not in top-level directory.'
 	exit 1
 fi
 
-release="$1"
+if [ $# -lt 2 ]
+then
+	branch='master'
+	release="$1"
+else
+	branch="$1"
+	release="$2"
+fi
+
 sushi_release="sushi-${release}"
 
 rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
 
+git checkout "${branch}"
 git tag "${release}"
 git archive --prefix="${sushi_release}/" "${release}" > "${sushi_release}.tar"
 
@@ -55,14 +72,21 @@ do
 
 	cd "../${component}"
 
+	git checkout "${branch}"
 	git tag "${release}"
 	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
+
+	bump_version wscript "${release}"
+
+	git checkout master
 
 	cd ../suite
 
 	tar Avf "${sushi_release}.tar" "${component_release}.tar"
 	rm -fv "${component_release}.tar"
 done
+
+git checkout master
 
 bzip2 -k "${sushi_release}.tar"
 gzip "${sushi_release}.tar"
