@@ -32,7 +32,13 @@ bump_version ()
 	file="$1"
 	version="$2"
 
-	sed -i "/VERSION = /s/^.*$/VERSION = '${version}'/" "${file}"
+	prefix="${version%.*}"
+	suffix="${version##*.}"
+
+	bumped_suffix="$(($suffix + 1))"
+	bumped_version="${prefix}.${bumped_suffix}"
+
+	sed -i "/^VERSION = /s/^.*$/VERSION = '${bumped_version}'/" "${file}"
 }
 
 usage ()
