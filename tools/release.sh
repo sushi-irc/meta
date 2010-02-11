@@ -1,6 +1,6 @@
 #!/bin/sh
 
-# Copyright (c) 2008-2009 Michael Kuhn
+# Copyright (c) 2008-2010 Michael Kuhn
 # All rights reserved.
 #
 # Redistribution and use in source and binary forms, with or without
@@ -77,6 +77,8 @@ do
 	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
 
 	bump_version wscript "${release}"
+	git add wscript
+	git commit -e -m "Bump version to ${release}."
 
 	git checkout master
 
@@ -85,6 +87,10 @@ do
 	tar Avf "${sushi_release}.tar" "${component_release}.tar"
 	rm -fv "${component_release}.tar"
 done
+
+bump_version wscript "${release}"
+git add wscript
+git commit -e -m "Bump version to ${release}."
 
 git checkout master
 
