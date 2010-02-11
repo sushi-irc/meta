@@ -39,6 +39,9 @@ bump_version ()
 	bumped_version="${prefix}.${bumped_suffix}"
 
 	sed -i "/^VERSION = /s/^.*$/VERSION = '${bumped_version}'/" "${file}"
+
+	git add "${file}"
+	git commit -e -m "Bump version to ${bumped_version}."
 }
 
 usage ()
@@ -83,8 +86,6 @@ do
 	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
 
 	bump_version wscript "${release}"
-	git add wscript
-	git commit -e -m "Bump version to ${release}."
 
 	git checkout master
 
@@ -95,8 +96,6 @@ do
 done
 
 bump_version wscript "${release}"
-git add wscript
-git commit -e -m "Bump version to ${release}."
 
 git checkout master
 
