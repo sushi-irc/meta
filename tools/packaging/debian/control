@@ -1,8 +1,8 @@
 Source: sushi
 Section: net
 Priority: optional
-Maintainer: Ubuntu MOTU Developers <ubuntu-motu@lists.ubuntu.com>
-XSBC-Original-Maintainer: Michael Kuhn <suraia@ikkoku.de>
+Maintainer: Luke Faraone <luke@faraone.cc>
+DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7),
  python,
  pkg-config,
@@ -16,29 +16,28 @@ Build-Depends: debhelper (>= 7),
  libgupnp-igd-1.0-dev,
  libgnutls-dev
 Build-Depends-Indep: python-central
-Standards-Version: 3.8.3
+Standards-Version: 3.8.4
 Homepage: http://sushi.ikkoku.de/
-XS-Python-Version: current
-Vcs-Git: git://ikkoku.de/sushi
-Vcs-Browser: http://git.ikkoku.de/?p=sushi;a=summary
+XS-Python-Version: >=2.6
+Vcs-Bzr: https://code.launchpad.net/~lfaraone/sushi.maki/debian
 
 Package: sushi
 Architecture: all
-Depends: maki,
+Depends: maki, ${misc:Depends},
  tekka | nigiri
-Description: IRC suite
+Description: D-Bus-based IRC suite
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
  interact with IRC.
  .
- This package provides the full suite.
+ This virtual package provides the full suite.
 
 Package: sushi-plugins
 Architecture: all
-Depends: ${python:Depends}
+Depends: ${python:Depends}, ${misc:Depends}
 XB-Python-Version: ${python:Versions}
-Description: IRC suite - plugins
+Description: sushi IRC suite - plugins
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -48,8 +47,8 @@ Description: IRC suite - plugins
 
 Package: maki
 Architecture: any
-Depends: ${shlibs:Depends}
-Description: IRC suite - central daemon
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: sushi IRC suite - central daemon
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -59,16 +58,15 @@ Description: IRC suite - central daemon
 
 Package: tekka
 Architecture: all
-Depends: ${python:Depends},
+Depends: ${python:Depends}, ${misc:Depends},
  maki,
  python-dbus,
- python-glade2,
  python-gobject,
  python-gtk2,
  python-xdg
 Recommends: sushi-plugins
 XB-Python-Version: ${python:Versions}
-Description: IRC suite - graphical client
+Description: sushi IRC suite - graphical client
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -78,7 +76,7 @@ Description: IRC suite - graphical client
 
 Package: nigiri
 Architecture: all
-Depends: ${python:Depends},
+Depends: ${python:Depends}, ${misc:Depends},
  maki,
  python-dbus,
  python-gobject,
@@ -86,7 +84,7 @@ Depends: ${python:Depends},
  python-xdg
 Recommends: sushi-plugins
 XB-Python-Version: ${python:Versions}
-Description: IRC suite - terminal client
+Description: sushi IRC suite - terminal client
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
