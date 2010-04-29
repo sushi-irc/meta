@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
 APPNAME = 'sushi'
-VERSION = '1.2.0'
+VERSION = '1.3.0'
 
 srcdir = '.'
 blddir = 'build'
