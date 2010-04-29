@@ -1,13 +1,4 @@
 #!/usr/bin/make -f
-# Sample debian/rules that uses debhelper.
-# This file is public domain software, originally written by Joey Hess.
-#
-# This version is for a hypothetical package that builds an
-# architecture-dependant package, as well as an architecture-independent
-# package.
-
-# Uncomment this to turn on verbose mode.
-#export DH_VERBOSE=1
 
 configure: configure-stamp
 configure-stamp:
@@ -36,6 +27,7 @@ clean:
 	cd nigiri && ./waf distclean
 	cd tekka && ./waf distclean
 	cd plugins && ./waf distclean
+	find ./ -name ".waf*" | xargs rm -Rf
 	dh_clean
 
 install: build
