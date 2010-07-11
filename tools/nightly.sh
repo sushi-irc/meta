@@ -46,22 +46,24 @@ sushi_release="sushi-${date}"
 rm -fv "${temp}/${sushi_release}.tar" "${temp}/${sushi_release}.tar.bz2" "${temp}/${sushi_release}.tar.gz"
 
 GIT_DIR="${repository_path}/suite" \
-	git archive --prefix="${sushi_release}/" master > "${temp}/${sushi_release}.tar"
+	git archive --prefix="${sushi_release}/" master | tar xCf "${temp}" -
 
 for component in maki tekka nigiri plugins
 do
-	component_release="${component}-${date}"
-
 	GIT_DIR="${repository_path}/${component}" \
-		git archive --prefix="${sushi_release}/${component}/" master > "${temp}/${component_release}.tar"
-
-	tar Avf "${temp}/${sushi_release}.tar" "${temp}/${component_release}.tar"
-	rm -fv "${temp}/${component_release}.tar"
+		git archive --prefix="${sushi_release}/${component}/" master | tar xCf "${temp}" -
 done
 
+# Deduplicate waf
+for component in maki tekka nigiri plugins
+do
+	(cd "${temp}/${sushi_release}/${component}" && rm -f waf && ln -s ../waf waf)
+done
+
+tar cCf "${temp}" "${temp}/${sushi_release}.tar" "${sushi_release}"
 bzip2 -k "${temp}/${sushi_release}.tar"
 gzip "${temp}/${sushi_release}.tar"
 
 find "${path}/" -type f -mtime +7 -print -delete
 mv -v "${temp}/${sushi_release}.tar.bz2" "${temp}/${sushi_release}.tar.gz" "${path}/"
-rm -rfv "${temp}"
+rm -rf "${temp}"
