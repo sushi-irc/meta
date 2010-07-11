@@ -56,27 +56,29 @@ rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.g
 
 git checkout "${branch}"
 git tag "${release}"
-git archive --prefix="${sushi_release}/" "${release}" > "${sushi_release}.tar"
+git archive --prefix="${sushi_release}/" "${release}" | tar xf -
 
 for component in maki tekka nigiri plugins
 do
-	component_release="${component}-${release}"
-
 	cd "../${component}"
 
 	git checkout "${branch}"
 	git tag "${release}"
-	git archive --prefix="${sushi_release}/${component}/" "${release}" > "../suite/${component_release}.tar"
+	git archive --prefix="${sushi_release}/${component}/" "${release}" | tar xCf ../suite -
 
 	git checkout master
 
 	cd ../suite
+done
 
-	tar Avf "${sushi_release}.tar" "${component_release}.tar"
-	rm -fv "${component_release}.tar"
+# Deduplicate waf
+for component in maki tekka nigiri plugins
+do
+	(cd "${sushi_release}/${component}" && rm -f waf && ln -s ../waf waf)
 done
 
 git checkout master
 
+tar cf "${sushi_release}.tar" "${sushi_release}"
 bzip2 -k "${sushi_release}.tar"
 gzip "${sushi_release}.tar"
