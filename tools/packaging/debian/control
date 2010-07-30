@@ -56,6 +56,18 @@ Description: sushi IRC suite - central daemon
  .
  This package contains the central daemon maki.
 
+Package: maki-dbg
+Section: debug
+Architecture: any
+Depends: maki (= ${binary:Version}), ${misc:Depends}
+Description: sushi IRC suite - central daemon debugging symbols
+ The sushi IRC suite consists of a central daemon and several clients, which
+ communicate via DBus. DBus methods and signals are provided by the daemon to
+ abstract the IRC protocol. Clients can use these methods and signals to easily
+ interact with IRC.
+ .
+ This package contains debugging symbols for the central daemon maki.
+
 Package: tekka
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends},
