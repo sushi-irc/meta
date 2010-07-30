@@ -5,6 +5,7 @@ Maintainer: Luke Faraone <luke@faraone.cc>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50),
  python,
+ python-central,
  pkg-config,
  libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
@@ -15,7 +16,6 @@ Build-Depends: debhelper (>= 7.0.50),
  libnice-dev,
  libgupnp-igd-1.0-dev,
  libgnutls-dev
-Build-Depends-Indep: python-central
 Standards-Version: 3.9.1
 Homepage: http://sushi.ikkoku.de/
 XS-Python-Version: >=2.6
