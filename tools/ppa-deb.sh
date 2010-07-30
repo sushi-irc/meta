@@ -44,23 +44,16 @@ distribution="$3"
 temp="$(mktemp -d)"
 directory="$(tar tf "${tarball}" | head -n 1)"
 directory="${directory%/}"
-upstream_version="${version%%-*}"
 suffix="${tarball#*.}"
 
-cp "${tarball}" "${temp}/sushi_${upstream_version}.orig.${suffix}"
+cp "${tarball}" "${temp}/sushi_${version}.orig.${suffix}"
 tar xCf "${temp}" "${tarball}"
 cp -a "${temp}/${directory}/tools/packaging/debian" "${temp}/${directory}"
 
 (
 	cd "${temp}/${directory}"
 
-	# Hack
-	if [ "${distribution}" = "jaunty" ]
-	then
-		sed -i "/ libgupnp-igd-1.0-dev,$/d" debian/control
-	fi
-
-	dch -v "${version}" -D "${distribution}" "PPA package for ${distribution}."
+	dch -v "${version}-0sushi1~${distribution}1" -D "${distribution}" "PPA package for ${distribution}."
 	dpkg-buildpackage -S -sa -nc
 )
 
