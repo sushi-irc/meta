@@ -1,81 +1,30 @@
 #!/usr/bin/make -f
 
-configure: configure-stamp
-configure-stamp:
-	dh_testdir
-	cd maki && ./waf configure --prefix=/usr
-	cd nigiri && ./waf configure --prefix=/usr
-	cd tekka && ./waf configure --prefix=/usr
-	cd plugins && ./waf configure --prefix=/usr
-	touch $@
+%:
+	dh --with python-central $@
 
-build: build-stamp
-build-stamp: configure-stamp
-	dh_testdir
-	cd maki && ./waf build
-	cd nigiri && ./waf build
-	cd tekka && ./waf build
-	cd plugins && ./waf build
-	touch $@
-
-clean:
-	dh_testdir
-	dh_testroot
-	rm -f configure-stamp
-	rm -f build-stamp
+override_dh_auto_clean:
 	cd maki && ./waf distclean
 	cd nigiri && ./waf distclean
 	cd tekka && ./waf distclean
 	cd plugins && ./waf distclean
-	find ./ -name ".waf*" | xargs rm -Rf
-	dh_clean
+	#find ./ -name ".waf*" | xargs rm -Rf
 
-install: build
-	dh_testdir
-	dh_testroot
-	dh_prep
-	dh_installdirs
+override_dh_auto_configure:
+	cd maki && ./waf configure --prefix=/usr
+	cd nigiri && ./waf configure --prefix=/usr
+	cd tekka && ./waf configure --prefix=/usr
+	cd plugins && ./waf configure --prefix=/usr
+
+override_dh_auto_build:
+	cd maki && ./waf build
+	cd nigiri && ./waf build
+	cd tekka && ./waf build
+	cd plugins && ./waf build
+
+override_dh_auto_install:
 	cd maki && ./waf install --destdir=$(CURDIR)/debian/maki
 	cd nigiri && ./waf install --destdir=$(CURDIR)/debian/nigiri
 	cd tekka && ./waf install --destdir=$(CURDIR)/debian/tekka
 	cd plugins && ./waf install --destdir=$(CURDIR)/debian/sushi-plugins
-	dh_install
 
-binary-indep: build install
-	dh_testdir -i
-	dh_testroot -i
-	dh_installchangelogs -i
-	dh_installdocs -i
-	dh_installexamples -i
-	dh_installman -i
-	dh_link -i
-	dh_compress -i
-	dh_fixperms -i
-	dh_pycentral -i
-	dh_installdeb -i
-	dh_gencontrol -i
-	dh_md5sums -i
-	dh_builddeb -i
-
-binary-arch: build install
-	dh_testdir -a
-	dh_testroot -a
-	dh_installchangelogs -a
-	dh_installdocs -a
-	dh_installexamples -a
-	dh_installmenu -a
-	dh_installman -a
-	dh_strip -a
-	dh_link -a
-	dh_compress -a
-	dh_fixperms -a
-	dh_makeshlibs -a
-	dh_installdeb -a
-	dh_shlibdeps -a
-	dh_gencontrol -a
-	dh_md5sums -a
-	dh_builddeb -a
-
-binary: binary-indep binary-arch
-
-.PHONY: configure build clean binary-indep binary-arch binary install
