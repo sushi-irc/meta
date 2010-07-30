@@ -29,41 +29,41 @@ set -e
 
 usage ()
 {
-	echo "Usage: ${0##*/} repository-path path"
+	echo "Usage: ${0##*/} tarball version distribution"
 	exit 1
 }
 
 test -z "$1" && usage
 test -z "$2" && usage
+test -z "$3" && usage
 
-repository_path="$1"
-path="$2"
+tarball="$1"
+version="$2"
+distribution="$3"
 
 temp="$(mktemp -d)"
-date="$(date '+%Y%m%d')"
-sushi_release="sushi-${date}"
+directory="$(tar tf "${tarball}" | head -n 1)"
+directory="${directory%/}"
+upstream_version="${version%%-*}"
+suffix="${tarball#*.}"
 
-rm -fv "${temp}/${sushi_release}.tar" "${temp}/${sushi_release}.tar.bz2" "${temp}/${sushi_release}.tar.gz"
+cp "${tarball}" "${temp}/sushi_${upstream_version}.orig.${suffix}"
+tar xCf "${temp}" "${tarball}"
+cp -a "${temp}/${directory}/tools/packaging/debian" "${temp}/${directory}"
 
-GIT_DIR="${repository_path}/suite" \
-	git archive --prefix="${sushi_release}/" master | tar xCf "${temp}" -
+(
+	cd "${temp}/${directory}"
 
-for component in maki tekka nigiri plugins
-do
-	GIT_DIR="${repository_path}/${component}" \
-		git archive --prefix="${sushi_release}/${component}/" master | tar xCf "${temp}" -
-done
+	# Hack
+	if [ "${distribution}" = "jaunty" ]
+	then
+		sed -i "/ libgupnp-igd-1.0-dev,$/d" debian/control
+	fi
 
-# Deduplicate waf
-for component in maki tekka nigiri plugins
-do
-	(cd "${temp}/${sushi_release}/${component}" && rm -f waf && ln -s ../waf waf)
-done
+	dch -v "${version}" -D "${distribution}" "PPA package for ${distribution}."
+	dpkg-buildpackage -S -sa -nc
+)
 
-tar cCf "${temp}" "${temp}/${sushi_release}.tar" "${sushi_release}"
-bzip2 -k "${temp}/${sushi_release}.tar"
-gzip "${temp}/${sushi_release}.tar"
-
-find "${path}/" -type f -mtime +7 -print -delete
-mv -v "${temp}/${sushi_release}.tar.bz2" "${temp}/${sushi_release}.tar.gz" "${path}/"
-rm -rf "${temp}"
+echo
+echo dput ppa:sushi.maintainers/development-version "${temp}/*.changes"
+echo rm -rf "${temp}"
