@@ -8,7 +8,7 @@ override_dh_auto_clean:
 	cd nigiri && ./waf distclean
 	cd tekka && ./waf distclean
 	cd plugins && ./waf distclean
-	#find ./ -name ".waf*" | xargs rm -Rf
+	find ./ -name ".waf*" | xargs rm -Rf
 
 override_dh_auto_configure:
 	cd maki && ./waf configure --prefix=/usr
