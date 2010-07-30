@@ -13,7 +13,7 @@ override_dh_auto_clean:
 override_dh_auto_configure:
 	cd maki && ./waf configure --prefix=/usr
 	cd nigiri && ./waf configure --prefix=/usr
-	cd tekka && ./waf configure --prefix=/usr
+	cd tekka && ./waf configure --prefix=/usr --ubuntu-icons
 	cd plugins && ./waf configure --prefix=/usr
 
 override_dh_auto_build:
