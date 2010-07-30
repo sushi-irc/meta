@@ -5,7 +5,7 @@ Maintainer: Luke Faraone <luke@faraone.cc>
 DM-Upload-Allowed: yes
 Build-Depends: debhelper (>= 7.0.50),
  python,
- python-central,
+ python-support,
  pkg-config,
  libdbus-1-dev,
  libglib2.0-dev (>= 2.16),
@@ -18,7 +18,6 @@ Build-Depends: debhelper (>= 7.0.50),
  libgnutls-dev
 Standards-Version: 3.9.1
 Homepage: http://sushi.ikkoku.de/
-XS-Python-Version: >=2.6
 Vcs-Bzr: https://code.launchpad.net/~lfaraone/sushi.maki/debian
 
 Package: sushi
@@ -36,7 +35,6 @@ Description: D-Bus-based IRC suite
 Package: sushi-plugins
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}
-XB-Python-Version: ${python:Versions}
 Description: sushi IRC suite - plugins
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -78,7 +76,6 @@ Depends: ${python:Depends}, ${misc:Depends},
  python-gtk2,
  python-xdg
 Recommends: sushi-plugins
-XB-Python-Version: ${python:Versions}
 Description: sushi IRC suite - graphical client
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -96,7 +93,6 @@ Depends: ${python:Depends}, ${misc:Depends},
  python-urwid (>= 0.9.8),
  python-xdg
 Recommends: sushi-plugins
-XB-Python-Version: ${python:Versions}
 Description: sushi IRC suite - terminal client
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
