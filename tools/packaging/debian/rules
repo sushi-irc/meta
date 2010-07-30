@@ -28,6 +28,8 @@ override_dh_auto_install:
 	cd tekka && ./waf install --destdir=$(CURDIR)/debian/tekka
 	cd plugins && ./waf install --destdir=$(CURDIR)/debian/sushi-plugins
 
+override_dh_auto_test:
+
 override_dh_strip:
 	dh_strip -p maki --dbg-package=maki-dbg
 	dh_strip --remaining-packages
