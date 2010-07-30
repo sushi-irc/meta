@@ -33,6 +33,10 @@ usage ()
 	exit 1
 }
 
+opt_ppa=""
+
+test "$1" = "--ppa" && shift && opt_ppa="true"
+
 test -z "$1" && usage
 test -z "$2" && usage
 
@@ -67,3 +71,13 @@ gzip "${temp}/${sushi_release}.tar"
 find "${path}/" -type f -mtime +7 -print -delete
 mv -v "${temp}/${sushi_release}.tar.bz2" "${temp}/${sushi_release}.tar.gz" "${path}/"
 rm -rf "${temp}"
+
+if [ -n "${opt_ppa}" ]
+then
+	directory="${0%/*}"
+
+	# FIXME Do not hardcode version
+	"${directory}/ppa-deb.sh" "${path}/${sushi_release}.tar.bz2" "1.3.0~git${date}" karmic
+	"${directory}/ppa-deb.sh" "${path}/${sushi_release}.tar.bz2" "1.3.0~git${date}" lucid
+	"${directory}/ppa-deb.sh" "${path}/${sushi_release}.tar.bz2" "1.3.0~git${date}" maverick
+fi
