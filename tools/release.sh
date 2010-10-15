@@ -60,21 +60,26 @@ git archive --prefix="${sushi_release}/" "${release}" | tar xf -
 
 for component in maki tekka nigiri plugins
 do
-	cd "../${component}"
+	(
+		cd "${component}"
 
-	git checkout "${branch}"
-	git tag "${release}"
-	git archive --prefix="${sushi_release}/${component}/" "${release}" | tar xCf ../suite -
+		git checkout "${branch}"
+		git tag "${release}"
+		git archive --prefix="${sushi_release}/${component}/" "${release}" | tar xCf .. -
 
-	git checkout master
-
-	cd ../suite
+		git checkout master
+	)
 done
 
 # Deduplicate waf
 for component in maki tekka nigiri plugins
 do
-	(cd "${sushi_release}/${component}" && rm -f waf && ln -s ../waf waf)
+	(
+		cd "${sushi_release}/${component}"
+
+		rm -f waf
+		ln -s ../waf waf
+	)
 done
 
 git checkout master
