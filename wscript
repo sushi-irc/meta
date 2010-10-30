@@ -6,6 +6,9 @@ VERSION = '1.4.0'
 srcdir = '.'
 blddir = 'build'
 
+def set_options (ctx):
+	ctx.sub_options('tekka')
+
 def configure (conf):
 	conf.sub_config('maki')
 	conf.sub_config('nigiri')
