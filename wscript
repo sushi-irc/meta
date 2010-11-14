@@ -3,20 +3,21 @@
 APPNAME = 'sushi'
 VERSION = '1.4.0'
 
-srcdir = '.'
-blddir = 'build'
+top = '.'
+out = 'build'
 
-def set_options (ctx):
-	ctx.sub_options('tekka')
+def options (ctx):
+	ctx.recurse('maki')
+	ctx.recurse('tekka')
 
 def configure (conf):
-	conf.sub_config('maki')
-	conf.sub_config('nigiri')
-	conf.sub_config('plugins')
-	conf.sub_config('tekka')
+	conf.recurse('maki')
+	conf.recurse('nigiri')
+	conf.recurse('plugins')
+	conf.recurse('tekka')
 
 def build (bld):
-	bld.add_subdirs('maki')
-	bld.add_subdirs('nigiri')
-	bld.add_subdirs('plugins')
-	bld.add_subdirs('tekka')
+	bld.recurse('maki')
+	bld.recurse('nigiri')
+	bld.recurse('plugins')
+	bld.recurse('tekka')
