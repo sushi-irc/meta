@@ -1,8 +1,7 @@
 Source: sushi
 Section: net
 Priority: optional
-Maintainer: Luke Faraone <luke@faraone.cc>
-DM-Upload-Allowed: yes
+Maintainer: Michael Kuhn <suraia@ikkoku.de>
 Build-Depends: debhelper (>= 7.0.50),
  python,
  python-support,
@@ -35,7 +34,7 @@ Description: D-Bus-based IRC suite
 Package: sushi-plugins
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}
-Description: sushi IRC suite - plugins
+Description: sushi IRC suite - client plugins
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -46,6 +45,7 @@ Description: sushi IRC suite - plugins
 Package: maki
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
+Recommends: maki-plugins
 Description: sushi IRC suite - central daemon
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -53,6 +53,17 @@ Description: sushi IRC suite - central daemon
  interact with IRC.
  .
  This package contains the central daemon maki.
+
+Package: maki-plugins
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: sushi IRC suite - maki plugins
+ The sushi IRC suite consists of a central daemon and several clients, which
+ communicate via DBus. DBus methods and signals are provided by the daemon to
+ abstract the IRC protocol. Clients can use these methods and signals to easily
+ interact with IRC.
+ .
+ This package contains plugins for maki.
 
 Package: maki-dbg
 Section: debug

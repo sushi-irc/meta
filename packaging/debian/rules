@@ -27,6 +27,8 @@ override_dh_auto_install:
 	cd nigiri && ./waf install --destdir=$(CURDIR)/debian/nigiri
 	cd tekka && ./waf install --destdir=$(CURDIR)/debian/tekka
 	cd plugins && ./waf install --destdir=$(CURDIR)/debian/sushi-plugins
+	mv $(CURDIR)/debian/maki/usr/lib/sushi/maki/plugins/* $(CURDIR)/debian/maki-plugins/usr/lib/sushi/maki/plugins/
+	find $(CURDIR)/debian/maki/usr -type d -empty -delete
 
 override_dh_auto_test:
 
