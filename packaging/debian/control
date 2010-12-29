@@ -6,18 +6,15 @@ Build-Depends: debhelper (>= 7.0.50),
  python,
  python-support,
  pkg-config,
- libdbus-1-dev,
- libglib2.0-dev (>= 2.16),
- libdbus-glib-1-dev,
  gettext,
  intltool,
- libnm-glib-dev (>= 0.7.0),
+ libglib2.0-dev (>= 2.26),
  libnice-dev,
- libgupnp-igd-1.0-dev,
- libgnutls-dev
+ libgupnp-igd-1.0-dev
 Standards-Version: 3.9.1
 Homepage: http://sushi.ikkoku.de/
-Vcs-Bzr: https://code.launchpad.net/~lfaraone/sushi.maki/debian
+Vcs-Git: http://redmine.ikkoku.de/git/sushi
+Vcs-Browser: http://redmine.ikkoku.de/projects/sushi/repository/revisions/master/show/packaging/debian
 
 Package: sushi
 Architecture: all
