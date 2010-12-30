@@ -8,6 +8,7 @@ Build-Depends: debhelper (>= 7.0.50),
  pkg-config,
  gettext,
  intltool,
+ libdbus-1-dev,
  libglib2.0-dev (>= 2.26),
  libnice-dev,
  libgupnp-igd-1.0-dev
