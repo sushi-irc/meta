@@ -33,7 +33,17 @@ usage ()
 	exit 1
 }
 
-test -z "$1" && usage
+tag_release ()
+{
+	tag="$1"
+
+	if echo "${tag}" | grep '^[0-9]\+\.[0-9]\+\.[0-9]\+$' > /dev/null
+	then
+		git tag "${tag}"
+	fi
+}
+
+test $# -lt 1 && usage
 
 if [ ! -f ./tools/release.sh ]
 then
@@ -53,10 +63,11 @@ fi
 sushi_release="sushi-${release}"
 
 rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
+rm -frv "${sushi_release}"
 
 git checkout "${branch}"
-git tag "${release}"
-git archive --prefix="${sushi_release}/" "${release}" | tar xf -
+tag_release "${release}"
+git archive --prefix="${sushi_release}/" "${branch}" | tar xf -
 
 for component in maki tekka nigiri plugins
 do
@@ -64,8 +75,8 @@ do
 		cd "${component}"
 
 		git checkout "${branch}"
-		git tag "${release}"
-		git archive --prefix="${sushi_release}/${component}/" "${release}" | tar xCf .. -
+		tag_release "${release}"
+		git archive --prefix="${sushi_release}/${component}/" "${branch}" | tar xCf .. -
 
 		git checkout master
 	)
