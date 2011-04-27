@@ -1,26 +1,18 @@
 Source: sushi
 Section: net
-Priority: optional
-Maintainer: Michael Kuhn <suraia@ikkoku.de>
-Build-Depends: debhelper (>= 7.0.50),
- python,
- python-support,
- pkg-config,
- gettext,
- intltool,
- libdbus-1-dev,
- libglib2.0-dev (>= 2.26),
- libnice-dev,
- libgupnp-igd-1.0-dev
-Standards-Version: 3.9.1
+Priority: extra
+Maintainer: Devid Antonio Filoni <d.filoni@ubuntu.com>
+Build-Depends: debhelper (>= 7.0.50~), python, libdbus-1-dev, intltool,
+ libglib2.0-dev (>= 2.26), libnice-dev, libgupnp-igd-1.0-dev
+Build-Depends-Indep: python-support
+Standards-Version: 3.9.2
 Homepage: http://sushi.ikkoku.de/
 Vcs-Git: http://redmine.ikkoku.de/git/sushi
 Vcs-Browser: http://redmine.ikkoku.de/projects/sushi/repository/revisions/master/show/packaging/debian
 
 Package: sushi
 Architecture: all
-Depends: maki, ${misc:Depends},
- tekka | nigiri
+Depends: ${misc:Depends}, maki, tekka | nigiri
 Description: D-Bus-based IRC suite
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -29,33 +21,24 @@ Description: D-Bus-based IRC suite
  .
  This virtual package provides the full suite.
 
-Package: sushi-plugins
-Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}
-Description: sushi IRC suite - client plugins
- The sushi IRC suite consists of a central daemon and several clients, which
- communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
- .
- This package contains plugins for the clients.
-
 Package: maki
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
 Recommends: maki-plugins
-Description: sushi IRC suite - central daemon
+Description: D-Bus-based IRC suite (daemon)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
+ abstract the IRC protocol. Clients can use these methods and signals to
+ easily interact with IRC.
  .
- This package contains the central daemon maki.
+ maki provides DBus methods and signals to abstract the IRC protocol. Clients
+ like tekka and nigiri can use these methods and signals to easily interact
+ with IRC.
 
 Package: maki-plugins
 Architecture: any
 Depends: ${shlibs:Depends}, ${misc:Depends}
-Description: sushi IRC suite - maki plugins
+Description: D-Bus-based IRC suite (daemon plugins)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -68,7 +51,7 @@ Section: debug
 Priority: extra
 Architecture: any
 Depends: maki (= ${binary:Version}), ${misc:Depends}
-Description: sushi IRC suite - central daemon debugging symbols
+Description: D-Bus-based IRC suite (daemon debugging symbols)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to easily
@@ -76,36 +59,43 @@ Description: sushi IRC suite - central daemon debugging symbols
  .
  This package contains debugging symbols for the central daemon maki.
 
-Package: tekka
-Architecture: all
-Depends: ${python:Depends}, ${misc:Depends},
- maki,
- python-dbus,
- python-gobject,
- python-gtk2,
- python-xdg
-Recommends: sushi-plugins
-Description: sushi IRC suite - graphical client
- The sushi IRC suite consists of a central daemon and several clients, which
- communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
- .
- This package contains the graphical client tekka.
-
 Package: nigiri
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends},
- maki,
- python-dbus,
- python-gobject,
- python-urwid (>= 0.9.8),
- python-xdg
-Recommends: sushi-plugins
-Description: sushi IRC suite - terminal client
+Depends: ${python:Depends}, ${misc:Depends}, maki, python-urwid (>= 0.9.8),
+ python-gobject, python-dbus, python-xdg
+Recommends: sushi-plugins (= ${binary:Version})
+Description: D-Bus-based IRC suite (terminal client)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
- abstract the IRC protocol. Clients can use these methods and signals to easily
- interact with IRC.
+ abstract the IRC protocol. Clients can use these methods and signals to
+ easily interact with IRC.
  .
- This package contains the terminal client nigiri.
+ nigiri is a terminal client for maki and is written in Python. It uses Urwid
+ to realize the interface and supports plugins.
+
+Package: tekka
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}, maki, python-dbus,
+ python-gobject, python-gtk2, python-xdg
+Recommends: sushi-plugins (= ${binary:Version})
+Description: D-Bus-based IRC suite (graphical client)
+ The sushi IRC suite consists of a central daemon and several clients, which
+ communicate via DBus. DBus methods and signals are provided by the daemon to
+ abstract the IRC protocol. Clients can use these methods and signals to
+ easily interact with IRC.
+ .
+ tekka is a GTK-driven client for maki and is written in Python. It uses Glade
+ to describe the interface, supports plugins and tries to stick to the GNOME
+ Human Interface (HIG) guidelines.
+
+Package: sushi-plugins
+Architecture: all
+Depends: ${python:Depends}, ${misc:Depends}
+Description: D-Bus-based IRC suite (clients plugins)
+ The sushi IRC suite consists of a central daemon and several clients, which
+ communicate via DBus. DBus methods and signals are provided by the daemon to
+ abstract the IRC protocol. Clients can use these methods and signals to
+ easily interact with IRC.
+ .
+ plugins provides plugins for tekka and nigiri. All plugins are written in
+ Python and use the sushi client plugin API.

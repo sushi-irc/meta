@@ -1,5 +1,21 @@
 sushi (1.4.0-0sushi1) unstable; urgency=low
 
-  * Initial release. (closes: #575571, LP: #368893)
+  * New upstream release.
 
- -- Michael Kuhn <suraia@ikkoku.de>  Sun, 21 Nov 2010 23:45:49 +0100
+ -- Michael Kuhn <suraia@ikkoku.de>  Wed, 27 Apr 2011 23:11:14 +0200
+
+sushi (1.3.0+dfsg-2) unstable; urgency=low
+
+  * Add 01_deprecated-gnutls-2.12.diff patch to replace deprecated
+    gnutls_certificate_verify_peers with gnutls_certificate_verify_peers2
+    function (Closes: #624081).
+  * Fix package-contains-empty-directory lintian info.
+  * Bump Standards-Version to 3.9.2.
+
+ -- Devid Antonio Filoni <d.filoni@ubuntu.com>  Mon, 25 Apr 2011 17:25:49 +0200
+
+sushi (1.3.0+dfsg-1) unstable; urgency=low
+
+  * Initial release (Closes: #575571).
+
+ -- Devid Antonio Filoni <d.filoni@ubuntu.com>  Fri, 11 Mar 2011 19:04:36 +0100
