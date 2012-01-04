@@ -82,7 +82,9 @@ do
 	)
 done
 
-# Deduplicate waf
+git checkout master
+
+# Deduplicate Waf
 for component in maki tekka nigiri plugins
 do
 	(
@@ -93,8 +95,18 @@ do
 	)
 done
 
-git checkout master
+# Unpack Waf (http://wiki.debian.org/UnpackWaf)
+(
+	cd "${sushi_release}"
+
+	./waf --help > /dev/null
+	mv .waf-*/waflib waflib
+	rmdir .waf-*
+	find waflib -name '*.pyc' -delete
+	sed -i '/^#==>$/,$d' waf
+)
 
 tar cf "${sushi_release}.tar" "${sushi_release}"
+xz -k "${sushi_release}.tar"
 bzip2 -k "${sushi_release}.tar"
 gzip "${sushi_release}.tar"
