@@ -7,28 +7,28 @@ override_dh_auto_clean:
 	cd maki && ./waf distclean
 	cd nigiri && ./waf distclean
 	cd tekka && ./waf distclean
-	cd plugins && ./waf distclean
+	cd chirashi && ./waf distclean
 
-	rm -rf maki/.waf-* nigiri/.waf-* tekka/.waf-* plugins/.waf-*
+	rm -rf maki/.waf-* nigiri/.waf-* tekka/.waf-* chirashi/.waf-*
 
 override_dh_auto_configure:
 	cd maki && ./waf configure --prefix=/usr
 	cd nigiri && ./waf configure --prefix=/usr
 	cd tekka && ./waf configure --prefix=/usr
-	cd plugins && ./waf configure --prefix=/usr
+	cd chirashi && ./waf configure --prefix=/usr
 
 override_dh_auto_build:
 	cd maki && ./waf build
 	cd nigiri && ./waf build
 	cd tekka && ./waf build
-	cd plugins && ./waf build
+	cd chirashi && ./waf build
 
 override_dh_auto_install:
 	cd maki && ./waf install --destdir=$(CURDIR)/debian/maki
 	cd nigiri && ./waf install --destdir=$(CURDIR)/debian/nigiri
 	cd tekka && ./waf install --destdir=$(CURDIR)/debian/tekka
-	cd plugins && ./waf install --destdir=$(CURDIR)/debian/sushi-plugins
-	mv $(CURDIR)/debian/maki/usr/lib/sushi/maki/plugins/* $(CURDIR)/debian/maki-plugins/usr/lib/sushi/maki/plugins/
+	cd chirashi && ./waf install --destdir=$(CURDIR)/debian/chirashi
+	mv $(CURDIR)/debian/maki/usr/lib/maki/plugins/* $(CURDIR)/debian/maki-plugins/usr/lib/maki/plugins/
 	find $(CURDIR)/debian/maki/usr -type d -empty -delete
 
 override_dh_auto_test:
