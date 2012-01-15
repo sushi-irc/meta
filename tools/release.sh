@@ -62,14 +62,15 @@ fi
 
 sushi_release="sushi-${release}"
 
-rm -fv "${sushi_release}.tar" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
-rm -frv "${sushi_release}"
+rm -f "${sushi_release}.tar" "${sushi_release}.tar.xz" "${sushi_release}.tar.bz2" "${sushi_release}.tar.gz"
+rm -f "${sushi_release}+dfsg.tar" "${sushi_release}+dfsg.tar.xz" "${sushi_release}+dfsg.tar.bz2" "${sushi_release}+dfsg.tar.gz"
+rm -fr "${sushi_release}"
 
 git checkout "${branch}"
 tag_release "${release}"
 git archive --prefix="${sushi_release}/" "${branch}" | tar xf -
 
-for component in maki tekka nigiri plugins
+for component in maki tekka nigiri chirashi
 do
 	(
 		cd "${component}"
@@ -84,6 +85,26 @@ done
 
 git checkout master
 
+# Deduplicate Waf
+for component in maki tekka nigiri chirashi
+do
+	(
+		cd "${sushi_release}/${component}"
+
+		rm -f waf
+		ln -s ../waf
+	)
+done
+
+tar cf "${sushi_release}.tar" "${sushi_release}"
+xz -k "${sushi_release}.tar"
+bzip2 -k "${sushi_release}.tar"
+gzip "${sushi_release}.tar"
+
+### Debian
+
+rm -fr "${sushi_release}/maki/documentation/irc"
+
 # Unpack Waf (http://wiki.debian.org/UnpackWaf)
 (
 	cd "${sushi_release}"
@@ -95,19 +116,17 @@ git checkout master
 	sed -i '/^#==>$/,$d' waf
 )
 
-# Deduplicate Waf
-for component in maki tekka nigiri plugins
+# Link waflib
+for component in maki tekka nigiri chirashi
 do
 	(
 		cd "${sushi_release}/${component}"
 
-		rm -f waf
-		ln -s ../waf
 		ln -s ../waflib
 	)
 done
 
-tar cf "${sushi_release}.tar" "${sushi_release}"
-xz -k "${sushi_release}.tar"
-bzip2 -k "${sushi_release}.tar"
-gzip "${sushi_release}.tar"
+tar cf "${sushi_release}+dfsg.tar" "${sushi_release}"
+xz -k "${sushi_release}+dfsg.tar"
+bzip2 -k "${sushi_release}+dfsg.tar"
+gzip "${sushi_release}+dfsg.tar"
