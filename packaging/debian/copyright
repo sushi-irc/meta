@@ -3,8 +3,8 @@ Upstream-Name: sushi
 Source: http://sushi.ikkoku.de/
 
 Files: *
-Copyright: 2008-2010 Michael Kuhn
-           2008-2010 Marian Tietz
+Copyright: 2008-2012 Michael Kuhn
+           2008-2012 Marian Tietz
 License: BSD-2-Clause
 
 Files: tekka/tekka/lib/contrast.py
@@ -13,7 +13,8 @@ Copyright: 2006-2007 David Trowbridge
 License: MIT/X11
 
 Files: waf
-Copyright: 2005-2010 Thomas Nagy
+       waflib/*
+Copyright: 2005-2011 Thomas Nagy
 License: BSD-3-Clause
 
 Files: debian/*
