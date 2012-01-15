@@ -1,8 +1,11 @@
-sushi (1.4.0-0sushi1) unstable; urgency=low
+sushi (1.4.0+dfsg-1) unstable; urgency=low
 
-  * New upstream release.
+  * New upstream release. (Closes: #652783, #654507, #640420, #638661)
+  * Add sushi meta-package.
+  * Add maki-plugins and maki-dbg packages.
+  * Rename sushi-plugins to chirashi.
 
- -- Michael Kuhn <suraia@ikkoku.de>  Wed, 27 Apr 2011 23:11:14 +0200
+ -- Michael Kuhn <suraia@ikkoku.de>  Sun, 15 Jan 2012 12:33:41 +0100
 
 sushi (1.3.0+dfsg-2) unstable; urgency=low
 

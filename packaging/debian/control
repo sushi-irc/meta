@@ -3,16 +3,16 @@ Section: net
 Priority: extra
 Maintainer: Devid Antonio Filoni <d.filoni@ubuntu.com>
 Build-Depends: debhelper (>= 7.0.50~), python, libdbus-1-dev, intltool,
- libglib2.0-dev (>= 2.26), libnice-dev, libgupnp-igd-1.0-dev
+ libglib2.0-dev (>= 2.26), libnice-dev, libminiupnpc-dev (>= 1.5)
 Build-Depends-Indep: python-support
 Standards-Version: 3.9.2
 Homepage: http://sushi.ikkoku.de/
 Vcs-Git: http://redmine.ikkoku.de/git/sushi
-Vcs-Browser: http://redmine.ikkoku.de/projects/sushi/repository/revisions/master/show/packaging/debian
+Vcs-Browser: http://redmine.ikkoku.de/projects/sushi/repository
 
 Package: sushi
 Architecture: all
-Depends: ${misc:Depends}, maki, tekka | nigiri
+Depends: maki, tekka | nigiri, ${misc:Depends}
 Description: D-Bus-based IRC suite
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -37,7 +37,7 @@ Description: D-Bus-based IRC suite (daemon)
 
 Package: maki-plugins
 Architecture: any
-Depends: ${shlibs:Depends}, ${misc:Depends}
+Depends: maki (= ${binary:Version}), ${shlibs:Depends}, ${misc:Depends}
 Description: D-Bus-based IRC suite (daemon plugins)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -61,9 +61,9 @@ Description: D-Bus-based IRC suite (daemon debugging symbols)
 
 Package: nigiri
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, maki, python-urwid (>= 0.9.8),
- python-gobject, python-dbus, python-xdg
-Recommends: sushi-plugins (= ${binary:Version})
+Depends: maki (>= ${binary:Version}), python-urwid (>= 0.9.8),
+ python-gobject, python-dbus, python-xdg, ${python:Depends}, ${misc:Depends}
+Recommends: chirashi (= ${binary:Version})
 Description: D-Bus-based IRC suite (terminal client)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -75,9 +75,9 @@ Description: D-Bus-based IRC suite (terminal client)
 
 Package: tekka
 Architecture: all
-Depends: ${python:Depends}, ${misc:Depends}, maki, python-dbus,
- python-gobject, python-gtk2, python-xdg
-Recommends: sushi-plugins (= ${binary:Version})
+Depends: maki (>= ${binary:Version}), python-dbus, python-gobject,
+ python-gtk2, python-xdg, ${python:Depends}, ${misc:Depends}
+Recommends: chirashi (= ${binary:Version})
 Description: D-Bus-based IRC suite (graphical client)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
@@ -88,14 +88,22 @@ Description: D-Bus-based IRC suite (graphical client)
  to describe the interface, supports plugins and tries to stick to the GNOME
  Human Interface (HIG) guidelines.
 
-Package: sushi-plugins
+Package: chirashi
 Architecture: all
 Depends: ${python:Depends}, ${misc:Depends}
+Replaces: sushi-plugins (<< 1.4.0)
+Breaks: sushi-plugins (<< 1.4.0)
 Description: D-Bus-based IRC suite (clients plugins)
  The sushi IRC suite consists of a central daemon and several clients, which
  communicate via DBus. DBus methods and signals are provided by the daemon to
  abstract the IRC protocol. Clients can use these methods and signals to
  easily interact with IRC.
  .
- plugins provides plugins for tekka and nigiri. All plugins are written in
+ chirashi provides plugins for tekka and nigiri. All plugins are written in
  Python and use the sushi client plugin API.
+
+Package: sushi-plugins
+Section: oldlibs
+Architecture: all
+Depends: chirashi, ${misc:Depends}
+Description: transitional dummy package
