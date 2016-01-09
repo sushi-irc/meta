@@ -29,25 +29,52 @@ set -e
 
 usage ()
 {
-	echo "Usage: ${0##*/} file version"
+	echo "Usage: ${0##*/} version"
 	exit 1
 }
 
-bump_version ()
-{
-	file="$1"
-	version="$2"
+test -n "$1" || usage
 
-	sed -i "/^VERSION = /s/^.*$/VERSION = '${version}'/" "${file}"
+version="$1"
 
-	git add "${file}"
-	git commit -e -m "Bump version to ${version}."
-}
+test -f waf || usage
 
-test -z "$1" && usage
-test -z "$2" && usage
+INSTALL_PATH="${PWD}/install"
 
-file="$1"
-version="$2"
+rm --force "waf-${version}"
+wget --output-document "waf-${version}" "https://waf.io/waf-${version}"
 
-bump_version "${file}" "${version}"
+mv "waf-${version}" waf
+chmod +x waf
+
+git add waf
+git commit -e -m "Update Waf to version ${version}."
+
+for component in chirashi maki nigiri tekka
+do
+	(
+		cd "${component}"
+
+		cp ../waf .
+
+		git add waf
+		git commit -e -m "Update Waf to version ${version}."
+	)
+done
+
+for component in chirashi maki nigiri tekka
+do
+	(
+		local options
+
+		options=''
+		test "${component}" = 'maki' && options='--debug'
+
+		cd "${component}"
+
+		./waf distclean
+		./waf configure --prefix="${INSTALL_PATH}" ${options}
+		./waf clean
+		./waf install
+	)
+done
